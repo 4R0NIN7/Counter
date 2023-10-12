@@ -14,16 +14,15 @@ const Wrapper = styled(View)`
 
 const CounterScreen = () => {
   const {
-    counter: { value, increment, canDecrement, canIncrement },
+    counter: { value, increment, canDecrement, canIncrement, decrement },
   } = useAppStore()
 
-  const onPress = () => {}
   return (
     <Wrapper>
       <ObservedCounter
         value={value}
         onIncrement={increment}
-        onDecrement={onPress}
+        onDecrement={decrement}
         canIncrement={canIncrement}
         canDecrement={canDecrement}
       />

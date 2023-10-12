@@ -40,13 +40,14 @@ type TCounterProps = {
 }
 const Counter = ({ onIncrement, onDecrement, value, canIncrement, canDecrement }: TCounterProps) => {
   const onPressIncrement = () => onIncrement()
+  const onPressDecrement = () => onDecrement()
   const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
   return (
     <>
       <StyledBody>{value}</StyledBody>
       {showError && <StyledError>You have reached bounds!</StyledError>}
       <Row>
-        <DecrementButton title="Decrement" onPress={onDecrement} disabled={!canDecrement} />
+        <DecrementButton title="Decrement" onPress={onPressDecrement} disabled={!canDecrement} />
         <IncrementButton title="Increment" onPress={onPressIncrement} disabled={!canIncrement} />
       </Row>
     </>
