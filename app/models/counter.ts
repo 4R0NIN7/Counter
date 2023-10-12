@@ -27,4 +27,4 @@ const Counter = types
     }
   })
 
-export default Counter
+export { Counter }

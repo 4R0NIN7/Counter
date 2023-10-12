@@ -1,5 +1,5 @@
+import { AppStore } from '@stores/app_store'
 import { IAppStore } from '@stores/app_store.types'
-import { isEmpty } from 'lodash'
 import React, { ReactNode, createContext, ReactElement, useState } from 'react'
 
 type TStoreProviderProps = {
@@ -9,9 +9,7 @@ type TStoreProviderProps = {
 const StoreContext = createContext<IAppStore>({} as IAppStore)
 
 const StoreProvider = ({ children }: TStoreProviderProps): ReactElement | null => {
-  const [appStore, setAppStore] = useState<IAppStore>({} as IAppStore)
-
-  if (isEmpty(appStore)) return null
+  const [appStore, setAppStore] = useState<IAppStore>(AppStore.create({}))
 
   return <StoreContext.Provider value={appStore}>{children}</StoreContext.Provider>
 }

@@ -1,4 +1,4 @@
-import Counter from '@models/counter';
+import { Counter } from '@models/counter'
 import { Instance, SnapshotIn, SnapshotOut } from 'mobx-state-tree'
 
 export interface ICounter extends Instance<typeof Counter> {}
