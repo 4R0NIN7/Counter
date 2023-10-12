@@ -1,6 +1,6 @@
 import { IAppStore } from '@stores/app_store.types'
 import { isEmpty } from 'lodash'
-import { ReactNode, createContext, ReactElement, useState } from 'react'
+import React, { ReactNode, createContext, ReactElement, useState } from 'react'
 
 type TStoreProviderProps = {
   children: ReactNode
