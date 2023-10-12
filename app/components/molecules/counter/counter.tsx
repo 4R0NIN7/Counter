@@ -1,14 +1,16 @@
 import { BodyT1 } from '@atoms/text/text'
 import { ICounter } from '@models/counter.types'
-import React from 'react'
+import { observer } from 'mobx-react-lite'
+import React, { useMemo } from 'react'
 import { View, Button } from 'react-native'
 import styled from 'styled-components'
 
 const Row = styled(View)`
-  flex: 1;
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 5%;
 `
 
 const IncrementButton = styled(Button)`
@@ -20,23 +22,35 @@ const DecrementButton = styled(Button)`
 `
 
 const StyledBody = styled(BodyT1)`
+  padding-top: 30%;
   color: black;
-  font-weight: 700;
+`
+
+const StyledError = styled(BodyT1)`
+  padding-top: 50%;
+  color: red;
 `
 
 type TCounterProps = {
-  increment: ICounter['increment']
-  decrement: ICounter['decrement']
+  onIncrement: ICounter['increment']
+  onDecrement: ICounter['decrement']
+  canIncrement: boolean
+  canDecrement: boolean
   value: ICounter['value']
 }
-const Counter = ({ increment, decrement, value }: TCounterProps) => {
+const Counter = ({ onIncrement, onDecrement, value, canIncrement, canDecrement }: TCounterProps) => {
+  const onPressIncrement = () => onIncrement()
+  const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
   return (
-    <Row>
-      <DecrementButton title="Decrement" onPress={increment} />
+    <>
       <StyledBody>{value}</StyledBody>
-      <IncrementButton title="Decrement" onPress={decrement} />
-    </Row>
+      {showError && <StyledError>You have reached bounds!</StyledError>}
+      <Row>
+        <DecrementButton title="Decrement" onPress={onDecrement} disabled={!canDecrement} />
+        <IncrementButton title="Increment" onPress={onPressIncrement} disabled={!canIncrement} />
+      </Row>
+    </>
   )
 }
-
-export { Counter }
+const ObservedCounter = observer(Counter)
+export { Counter, ObservedCounter }

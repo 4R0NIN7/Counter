@@ -22,7 +22,7 @@ const Counter = types
       },
       decrement: () => {
         if (!self.canDecrement) return
-        self.value += 1
+        self.value -= 1
       },
     }
   })
