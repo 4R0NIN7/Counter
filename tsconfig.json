@@ -1,3 +1,24 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@atoms/*": ["app/components/atoms/*"],
+      "@molecules/*": ["app/components/molecules/*"],
+      "@organisms/*": ["app/components/organisms/*"],
+      "@screens/*": ["app/screens/*"],
+      "@assets/*": ["app/assets/*"],
+      "@hooks/*": ["app/hooks/*"],
+      "@locales/*": ["app/locales/*"],
+      "@models/*": ["app/models/*"],
+      "@navigators/*": ["app/navigators/*"],
+      "@providers/*": ["app/providers/*"],
+      "@services/*": ["app/services/*"],
+      "@stores/*": ["app/stores/*"],
+      "@themes/*": ["app/themes/*"],
+      "@utils/*": ["app/utils/*"],
+      "@components/*": ["app/components/*"],
+      "@app/*": ["app/*"]
+    },
+  },
   "extends": "@tsconfig/react-native/tsconfig.json"
 }
