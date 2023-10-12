@@ -10,7 +10,7 @@ const Counter = types
         return self.value < 100
       },
       get canDecrement(): boolean {
-        return self.value >= 0
+        return self.value >= 1
       },
     }
   })
