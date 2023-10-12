@@ -1,9 +1,9 @@
 import { useAppStore } from '@hooks/stores/stores'
 import { observer } from 'mobx-react-lite'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 import styled from 'styled-components/native'
-import { Counter } from '@molecules/counter/counter'
+import { ObservedCounter } from '@molecules/counter/counter'
 
 const Wrapper = styled(View)`
   flex: 1;
@@ -14,14 +14,19 @@ const Wrapper = styled(View)`
 
 const CounterScreen = () => {
   const {
-    counter: { value },
+    counter: { value, increment, canDecrement, canIncrement },
   } = useAppStore()
 
   const onPress = () => {}
-
   return (
     <Wrapper>
-      <Counter value={value} increment={onPress} decrement={onPress} />
+      <ObservedCounter
+        value={value}
+        onIncrement={increment}
+        onDecrement={onPress}
+        canIncrement={canIncrement}
+        canDecrement={canDecrement}
+      />
     </Wrapper>
   )
 }
