@@ -1,5 +1,7 @@
 import { types } from 'mobx-state-tree'
 
+const delay = 100
+
 const Counter = types
   .model('Counter', {
     value: types.optional(types.number, 0),
@@ -16,13 +18,24 @@ const Counter = types
   })
   .actions((self) => {
     return {
-      increment: () => {
-        if (!self.canIncrement) return
-        self.value += 1
+      setValue(value: number) {
+        self.value = value
       },
-      decrement: () => {
+      increment(firstTime: boolean) {
+        if (!self.canIncrement) return
+        if (firstTime) {
+          setTimeout(() => {
+            this.setValue(self.value + 1)
+          }, 500)
+        } else this.setValue(self.value + 1)
+      },
+      decrement(firstTime: boolean) {
         if (!self.canDecrement) return
-        self.value -= 1
+        if (firstTime) {
+          setTimeout(() => {
+            this.setValue(self.value - 1)
+          }, 500)
+        } else this.setValue(self.value - 1)
       },
     }
   })

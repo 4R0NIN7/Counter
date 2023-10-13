@@ -1,6 +1,6 @@
 import { useAppStore } from '@hooks/stores/stores'
 import { observer } from 'mobx-react-lite'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React from 'react'
 import styled from 'styled-components/native'
 import { ObservedCounter } from '@molecules/counter/counter'
