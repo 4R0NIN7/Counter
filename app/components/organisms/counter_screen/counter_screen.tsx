@@ -14,17 +14,7 @@ const Wrapper = styled(View)`
 
 const CounterScreen = () => {
   const {
-    counter: {
-      value,
-      increment,
-      canDecrement,
-      canIncrement,
-      decrement,
-      initializeAutoDecrementer,
-      initializeAutoIncrementer,
-      disposeAutoDecrementer,
-      disposeAutoIncrementer,
-    },
+    counter: { value, increment, canDecrement, canIncrement, decrement },
   } = useAppStore()
 
   return (
@@ -35,10 +25,6 @@ const CounterScreen = () => {
         onDecrement={decrement}
         canIncrement={canIncrement}
         canDecrement={canDecrement}
-        initializeAutoDecrementer={initializeAutoDecrementer}
-        initializeAutoIncrementer={initializeAutoIncrementer}
-        disposeAutoDecrementer={disposeAutoDecrementer}
-        disposeAutoIncrementer={disposeAutoIncrementer}
       />
     </Wrapper>
   )

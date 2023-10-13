@@ -3,7 +3,7 @@ import { BodyT1 } from '@atoms/text/text'
 import { ICounter } from '@models/counter.types'
 import { timeout } from '@utils/functions'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useMemo, useRef } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
 
@@ -36,41 +36,34 @@ const StyledError = styled(BodyT1)`
 type TCounterProps = {
   onIncrement: ICounter['increment']
   onDecrement: ICounter['decrement']
-  initializeAutoIncrementer: ICounter['initializeAutoIncrementer']
-  disposeAutoIncrementer: ICounter['disposeAutoIncrementer']
-  initializeAutoDecrementer: ICounter['initializeAutoDecrementer']
-  disposeAutoDecrementer: ICounter['disposeAutoDecrementer']
   canIncrement: boolean
   canDecrement: boolean
   value: ICounter['value']
 }
-const Counter = ({
-  onIncrement,
-  onDecrement,
-  value,
-  canIncrement,
-  canDecrement,
-  initializeAutoIncrementer,
-  disposeAutoIncrementer,
-  initializeAutoDecrementer,
-  disposeAutoDecrementer,
-}: TCounterProps) => {
+const Counter = ({ onIncrement, onDecrement, value, canIncrement, canDecrement }: TCounterProps) => {
   const timer = useRef<NodeJS.Timeout>()
+  const [isFirstTime, setIsFirstTime] = useState(true)
   const initialDelay = useCallback(() => timeout(500), [])
   const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
 
-  const onPressInIncrement = async () => {
-    await initialDelay()
-    timer.current = setTimeout(onIncrement, 100)
-  }
+  const onPressInIncrement = useCallback(() => {
+    // if (isFirstTime) await initialDelay()
+    onIncrement()
+    setIsFirstTime(false)
+    timer.current = setTimeout(onPressInIncrement, 100)
+  }, [onIncrement])
 
-  const onPressInDecrement = async () => {
-    await initialDelay()
-    timer.current = setTimeout(onDecrement, 100)
-  }
+  const onPressInDecrement = useCallback(() => {
+    // if (isFirstTime) await initialDelay()
+    onDecrement()
+    setIsFirstTime(false)
+    timer.current = setTimeout(onPressInDecrement, 100)
+  }, [onDecrement])
 
   const onPressOut = () => {
     clearTimeout(timer.current)
+    setIsFirstTime(true)
+    timer.current = undefined
   }
 
   return (

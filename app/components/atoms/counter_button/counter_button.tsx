@@ -1,6 +1,6 @@
 import { Icon } from '@rneui/base'
 import React from 'react'
-import { View, Pressable } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 
 const Container = styled(View)`
@@ -18,11 +18,11 @@ type TButtonProps = {
   disabled: boolean
 }
 const CounterButton = ({ title, onPressIn, onPressOut, disabled }: TButtonProps) => (
-  <Container>
-    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} disabled={disabled} hitSlop={5}>
+  <TouchableOpacity onPressIn={onPressIn} onPressOut={onPressOut} disabled={disabled} hitSlop={5}>
+    <Container>
       <Icon name={title === 'Increment' ? 'plus-one' : 'exposure-minus-1'} size={30} color="black" />
-    </Pressable>
-  </Container>
+    </Container>
+  </TouchableOpacity>
 )
 
 export { CounterButton }
