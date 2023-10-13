@@ -1,9 +1,8 @@
 import { CounterButton } from '@atoms/counter_button/counter_button'
 import { BodyT1 } from '@atoms/text/text'
 import { ICounter } from '@models/counter.types'
-import { timeout } from '@utils/functions'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
 
@@ -42,28 +41,25 @@ type TCounterProps = {
 }
 const Counter = ({ onIncrement, onDecrement, value, canIncrement, canDecrement }: TCounterProps) => {
   const timer = useRef<NodeJS.Timeout>()
-  const [isFirstTime, setIsFirstTime] = useState(true)
-  const initialDelay = useCallback(() => timeout(500), [])
+  const [firstTime, setFirstTime] = useState(true)
   const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
 
   const onPressInIncrement = useCallback(() => {
-    // if (isFirstTime) await initialDelay()
-    onIncrement()
-    setIsFirstTime(false)
+    onIncrement(firstTime)
+    setFirstTime(false)
     timer.current = setTimeout(onPressInIncrement, 100)
-  }, [onIncrement])
+  }, [firstTime, onIncrement])
 
   const onPressInDecrement = useCallback(() => {
-    // if (isFirstTime) await initialDelay()
-    onDecrement()
-    setIsFirstTime(false)
+    onDecrement(firstTime)
+    setFirstTime(false)
     timer.current = setTimeout(onPressInDecrement, 100)
-  }, [onDecrement])
+  }, [firstTime, onDecrement])
 
   const onPressOut = () => {
     clearTimeout(timer.current)
-    setIsFirstTime(true)
     timer.current = undefined
+    setFirstTime(true)
   }
 
   return (
