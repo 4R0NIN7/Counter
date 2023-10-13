@@ -1,4 +1,4 @@
-import { BodyT2 } from '@atoms/text/text'
+import { Icon } from '@rneui/base'
 import React from 'react'
 import { View, Pressable } from 'react-native'
 import styled from 'styled-components/native'
@@ -6,34 +6,21 @@ import styled from 'styled-components/native'
 const Container = styled(View)`
   height: 44px;
   width: 128px;
-  flexdirection: 'column';
-  alignitems: 'center';
-  justifycontent: 'center';
-`
-
-const Button = styled(View)`
-  borderwidth: 3px;
-  border-radius: 10px;
-  bordercolor: '#111';
-`
-
-const TitleButton = styled(BodyT2)`
-  color: '#914e4e';
+  border: 1px solid #403902;
+  justify-content: center;
+  align-items: center;
 `
 
 type TButtonProps = {
-  onPress: () => void
   onPressIn?: () => void
   onPressOut?: () => void
   title: string
   disabled: boolean
 }
-const CounterButton = ({ onPress, title, onPressIn, onPressOut, disabled }: TButtonProps) => (
+const CounterButton = ({ title, onPressIn, onPressOut, disabled }: TButtonProps) => (
   <Container>
-    <Pressable onPress={onPress} onPressIn={onPressIn} onPressOut={onPressOut} disabled={disabled}>
-      <Button>
-        <TitleButton>{title}</TitleButton>
-      </Button>
+    <Pressable onPressIn={onPressIn} onPressOut={onPressOut} disabled={disabled} hitSlop={5}>
+      <Icon name={title === 'Increment' ? 'plus-one' : 'exposure-minus-1'} size={30} color="black" />
     </Pressable>
   </Container>
 )

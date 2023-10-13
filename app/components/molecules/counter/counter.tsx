@@ -3,7 +3,7 @@ import { BodyT1 } from '@atoms/text/text'
 import { ICounter } from '@models/counter.types'
 import { timeout } from '@utils/functions'
 import { observer } from 'mobx-react-lite'
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import { View } from 'react-native'
 import styled from 'styled-components'
 
@@ -55,32 +55,24 @@ const Counter = ({
   initializeAutoDecrementer,
   disposeAutoDecrementer,
 }: TCounterProps) => {
+  const timer = useRef<NodeJS.Timeout>()
   const initialDelay = useCallback(() => timeout(500), [])
+  const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
 
-  const onPressIncrement = async () => {
-    await initialDelay()
-    onIncrement()
-  }
-  const onPressDecrement = async () => {
-    await initialDelay()
-    onDecrement()
-  }
   const onPressInIncrement = async () => {
     await initialDelay()
-    initializeAutoIncrementer()
-  }
-  const onPressOutIncrement = () => {
-    disposeAutoIncrementer()
+    timer.current = setTimeout(onIncrement, 100)
   }
 
   const onPressInDecrement = async () => {
     await initialDelay()
-    initializeAutoDecrementer()
+    timer.current = setTimeout(onDecrement, 100)
   }
-  const onPressOutDecrement = () => {
-    disposeAutoDecrementer()
+
+  const onPressOut = () => {
+    clearTimeout(timer.current)
   }
-  const showError = useMemo(() => !canDecrement || !canIncrement, [canDecrement, canIncrement])
+
   return (
     <>
       <StyledBody>{value}</StyledBody>
@@ -88,17 +80,15 @@ const Counter = ({
       <Row>
         <DecrementButton
           title="Decrement"
-          onPress={onPressDecrement}
           disabled={!canDecrement}
           onPressIn={onPressInDecrement}
-          onPressOut={onPressOutDecrement}
+          onPressOut={onPressOut}
         />
         <IncrementButton
           title="Increment"
-          onPress={onPressIncrement}
           disabled={!canIncrement}
           onPressIn={onPressInIncrement}
-          onPressOut={onPressOutIncrement}
+          onPressOut={onPressOut}
         />
       </Row>
     </>
